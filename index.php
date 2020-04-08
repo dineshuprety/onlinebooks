@@ -63,7 +63,7 @@ $total_pager=ceil($post_count/$post_per_page);
             ?>
 					<div class="col-md-4">
 									<div class="post">
-										<a class="post-img" download="<?php echo $post_pdf;?>"href="pdf/<?php echo $post_pdf;?>"><img src="img/<?php echo $post_image;?>" height="50%" width="40%" alt=""></a>
+										<a class="post-img"href="pdf/<?php echo $post_pdf;?>"><img src="img/<?php echo $post_image;?>" height="50%" width="40%" alt=""></a>
 										<div class="post-body">
 											<div class="post-meta">
 												<a class="post-category cat-1" href="categories.php?id=<?php echo $post_cat_id;?>">
@@ -79,7 +79,7 @@ $total_pager=ceil($post_count/$post_per_page);
 												</a>
 												<span class="post-date"><?php echo $post_date;?> by <?php echo $post_author;?></span>
 											</div>
-											<h3 class="post-title"><a download="<?php echo $post_pdf;?>" href="pdf/<?php echo $post_pdf;?>" ><?php echo $post_title;?></a></h3>
+											<h3 class="post-title"><a download="<?php echo $post_pdf;?>" href="pdf/<?php echo $post_pdf;?>" > <?php echo $post_title;?><i class="fa fa-cloud-download" aria-hidden="true"></i> </a></h3>
 										</div>
 									</div><br>
 								</div>
