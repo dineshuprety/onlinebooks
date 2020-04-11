@@ -1,6 +1,13 @@
 <?php require_once('./include/header.php');?>
 
 <body class="hold-transition skin-blue sidebar-mini">
+<?php
+
+    if(!isset($_COOKIE['_ad_'])){
+      header("Location: login.php");
+    }
+
+    ?>
 
 <?php require_once('./include/navigation.php');?>
   <!-- Content Wrapper. Contains page content -->
@@ -74,7 +81,7 @@
 
 
             <h2>All Categories</h2>
-            <table class="table" id="table1" >
+            <table class="table table-bordered table-hover" id="table1" >
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">ID</th>

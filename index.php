@@ -48,12 +48,11 @@ $total_pager=ceil($post_count/$post_per_page);
 
               //all posts display code
           $status="published";
-          $select="SELECT * FROM post WHERE post_status= :status LIMIT $page_id, $post_per_page";
+          $select="SELECT * FROM post ORDER BY post_id DESC LIMIT $page_id, $post_per_page";
           $stmt = $pdo->prepare($select);
-          $stmt->execute([':status'=>$status]);
+          $stmt->execute();
           while($post=$stmt->fetch(PDO::FETCH_ASSOC)){
-            $post_id=$post['post_id'];
-            $post_title=$post['post_title'];
+            $post_title=substr($post['post_title'],0,30);
 						$post_image=$post['post_image'];
 						$post_pdf=$post['post_pdf'];
             $post_date=$post['post_date'];
@@ -63,7 +62,7 @@ $total_pager=ceil($post_count/$post_per_page);
             ?>
 					<div class="col-md-4">
 									<div class="post">
-										<a class="post-img"href="pdf/<?php echo $post_pdf;?>"><img src="img/<?php echo $post_image;?>" height="50%" width="40%" alt=""></a>
+										<a class="post-img" target="_blank" href="pdf/<?php echo $post_pdf;?>"><img src="img/<?php echo $post_image;?>" height="50%" width="100%" alt=""></a>
 										<div class="post-body">
 											<div class="post-meta">
 												<a class="post-category cat-1" href="categories.php?id=<?php echo $post_cat_id;?>">

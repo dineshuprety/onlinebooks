@@ -1,9 +1,17 @@
 <?php require_once('./include/header.php');?>
 
 <body class="hold-transition skin-blue sidebar-mini">
+    
 
 <?php require_once('./include/navigation.php');?>
   <!-- Content Wrapper. Contains page content -->
+  <?php
+
+    if(!isset($_COOKIE['_ad_'])){
+      header("Location: login.php");
+    }
+
+    ?>
   <div class="content-wrapper">
    
 
@@ -22,7 +30,8 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
+              <table class="table table-hover" id="table">
+                <thead>
                 <tr>
                   <th>ID</th>
                   <th>Post Title</th>
@@ -31,14 +40,16 @@
                   <th>edit</th>
                   <th>Delete</th>
                 </tr>
+                </thead>
+                <tbody>
 
                 <?php
-                  $select="SELECT * FROM post";
+                  $select="SELECT * FROM post ORDER BY post_id DESC";
                   $stmt=$pdo->prepare($select);
                   $stmt->execute();
                   $count=$stmt->rowCount();
                   if($count==0){
-                    echo" Not posts found";
+                    echo" No posts found";
                   }else{
                     while($post=$stmt->fetch(PDO::FETCH_ASSOC)){
                       $post_id=$post['post_id'];
@@ -93,16 +104,17 @@
                      }
 
                 ?>
-                
-                
+
+                </tbody>
               </table>
             </div>
             <!-- /.box-body -->
 
 
     </section>
+    
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
+  
  <?php require_once('./include/footer.php'); ?>

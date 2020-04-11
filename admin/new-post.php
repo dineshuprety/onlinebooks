@@ -3,6 +3,14 @@
 <body class="hold-transition skin-blue sidebar-mini">
 
 <?php require_once('./include/navigation.php');?>
+
+<?php
+
+    if(!isset($_COOKIE['_ad_'])){
+      header("Location: login.php");
+    }
+
+    ?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
    

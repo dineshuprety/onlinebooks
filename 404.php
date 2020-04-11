@@ -1,16 +1,17 @@
 <?php require_once('./include/header.php'); ?>
 
 <!-- Left side column. contains the logo and sidebar -->
+<?php
+
+if(!isset($_COOKIE['_ua_'])){
+  header("Location: login.php");
+}
+
+?>
 
 <?php require_once('./include/navigation.php'); ?>
 
-   <?php
-
-   if(!isset($_COOKIE['_ua_'])){
-     header("Location: login.php");
-   }
-
-   ?>
+  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

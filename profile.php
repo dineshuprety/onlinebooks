@@ -8,18 +8,7 @@
 
 ?>
 
- <!-- Left side column. contains the logo and sidebar -->
-
- <?php require_once('./include/navigation.php'); ?>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    
-
-    <!-- Main content -->
-    <section class="content container-fluid">
-        <?php 
+<?php 
             if(isset($_POST['btn-update'])){
             $id=$_SESSION['id'];
             $post_image=$_FILES['post-image']['name'];
@@ -56,11 +45,25 @@
                         });
             
                        </script>';
+
+                    header("refresh:2;profile.php");
             }
-                //header('location:profile.php');
+                
 
             }
           ?>
+
+ <!-- Left side column. contains the logo and sidebar -->
+
+ <?php require_once('./include/navigation.php'); ?>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    
+
+    <!-- Main content -->
+    <section class="content container-fluid">
            <form role="form" action="profile.php" method="POST" enctype="multipart/form-data">
               <div class="box-body">
                 <div class="form-group">

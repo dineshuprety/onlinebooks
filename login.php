@@ -1,14 +1,39 @@
 <?php 
+ob_start();
 session_start();
 require_once ('./include/db.php');?>
+<script src="js/sweetalert.js"></script>
+<script src="js/jquery.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>login</title>
 	<link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css'>
+    <style>
+        .p {
+  text-indent: 50px;
+  text-align: justify;
+  letter-spacing: 3px;
+}
+
+.a {
+  text-decoration: none;
+  color: #008CBA;
+}
+    </style>
+    
 </head>
 <body>
+        <div class="total">
+        <p class="p"> welcome to our website to read and downlaod the books We have 
+        <a href="#" onclick="swal('Login or Register','Please register to get  Service on onlinebooks','error');" class="a">"Total <?php 
+    $select3=$pdo->prepare("select post_id from post");
+    $select3->execute();
+    $totalbooks=$select3->rowCount();
+    echo $totalbooks;
+?> Books "</a> Thank You.</p>
+        </div>
 	<div class="container" id="container">
     <div class="form-container sign-up-container">
 
@@ -27,7 +52,7 @@ require_once ('./include/db.php');?>
     </form>
     </div>
     <div class="form-container sign-in-container">
-        <form action="index.php" method="POST">
+        <form action="login.php" method="POST">
         <h1>Sign in</h1>
         <div class="social-container">
             <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -37,29 +62,10 @@ require_once ('./include/db.php');?>
         <span>or use your account</span>
         <input type="email" placeholder="Email" id="email" name="email" />
         <input type="password" placeholder="Password" id="password" name="password" />
-        <a href="#">Forgot your password?</a>
-        <button type="submit" onclick="login_now()" name="btn_signin">Sign In</button>
-        <div class="message"></div>
+        <a href="#" onclick="swal('To Get Password','Please Contact to Admin OR Service Provider','error');" >Forgot your password?</a>
+        <button type="submit" name="btn_signin">Sign In</button>
     </form> 
     </div>
-    <script>
-        function login_now(){
-            var email=jQuery('#email').val();
-            var password=jQuery('#password').val(); 
-            jQuery.ajax({
-                url:'login_check.php',
-                type:'post',
-                data:'email='+email+'&password='+password,
-                success:function(result){
-                    if(result=='done'){
-                       window.location.href='index.php';
-                       
-                    }
-                   jQuery('.message').html(result);
-                }
-            });
-}
-</script>
     <div class="overlay-container">
         <div class="overlay">
         <div class="overlay-panel overlay-left">
@@ -74,9 +80,77 @@ require_once ('./include/db.php');?>
             <p>Enter your personal details and start journey with us</p>
             <button class="ghost" id="signUp">Sign Up</button>
         </div>
-
     </div>
 </div>  
+	</div>
+    <?php
+            //login code 
+
+            if(isset($_POST['btn_signin'])){
+                $email=$_POST['email'];
+                $password=$_POST['password'];
+                $select="select * from user where email=:emailid and password=:pass";
+                $stmt=$pdo->prepare($select);
+                $stmt->execute([':emailid'=>$email,':pass'=>$password]);
+                $check=$stmt->rowCount();
+                
+                if($check>0){
+                    $row=$stmt->fetch(PDO::FETCH_ASSOC);
+                    $_SESSION['id']=$row['id'];
+                    $_SESSION['username']=$row['name'];
+                    $verification_status=$row['verification_status'];
+                    if($verification_status==0){
+                                    echo'<script type="text/javascript">
+                                    jQuery(function validation(){
+                            
+                                                swal({
+                                        title: "Oops",
+                                        text: "Your Account is not verified check your gmail",
+                                        icon: "error",
+                                        button:"ok"
+                                        });
+                            
+                                        
+                                        });
+                            
+                                    </script>';
+                    }else{
+                        echo'<script type="text/javascript">
+                        jQuery(function validation(){
+                
+                                        swal({
+                              title: "Good job!'.$_SESSION['username'].'",
+                              text: "You have successfully login!",
+                              icon: "success",
+                              button:"Loading....."
+                            });
+                
+                            });
+                
+                           </script>';
+
+                        setcookie('_ua_',md5(1),time() + 86400 * 30,'','','',true);
+                        header('refresh:2;index.php');
+                    }
+                }else{
+                    echo'<script type="text/javascript">
+                            jQuery(function validation(){
+
+                                        swal({
+                                title: "Oops",
+                                text: "Something went wrong!",
+                                text: "Please Check Your Email Id or Password!",
+                                icon: "error",
+                                button:"ok"
+                                });
+
+                                
+                                });
+
+                            </script>';
+                }
+            }
+            ?>
 </body>
 <footer>
     <script src="js/script.js"></script>

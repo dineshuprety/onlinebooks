@@ -7,6 +7,8 @@ ob_start();
 
 ?>
 <?php require_once('../include/db.php');?>
+<script src="../js/sweetalert.js"></script>
+<script src="../js/jquery.min.js"></script>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from

@@ -11,6 +11,17 @@
       <span class="logo-lg"><b>Online</b>Admin</span>
     </a>
 
+    <?php
+                    if(isset($_SESSION['personid'])){
+                      $personid=$_SESSION['personid'];
+                      $select1=$pdo->prepare("select * from admin where admin_id=:personid");
+                      $select1->execute([':personid'=>$personid]);
+                      while($row=$select1->fetch(PDO::FETCH_ASSOC)){
+                      $name=$row['admin_name'];
+                      $email=$row['admin_email'];
+                      $date=$row['admin_date'];
+                      $image=$row['admin_img']; ?>
+
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top" role="navigation">
       <!-- Sidebar toggle button-->
@@ -28,18 +39,18 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="../img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="../img/<?php echo $image;?>" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs"><?php echo $name;?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../img/<?php echo $image;?>" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                <?php echo $email;?>
+                  <small>Member since <?php echo $date;?></small>
                 </p>
               </li>
               <!-- Menu Footer-->
@@ -53,10 +64,7 @@
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
+          <!-- Control Sidebar Toggle Button -->  
         </ul>
       </div>
     </nav>
@@ -70,10 +78,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../img/<?php echo $image;?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $name;?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -82,13 +90,34 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
+        <li><a href="index.php"><i class="fa fa-dashboard"></i> <span>Post Detals</span></a></li>
         <li><a href="new-post.php"><i class="fa fa-plus-square"></i> <span>New-Post</span></a></li>
-        <li><a href="edit-post.php"><i class="fa fa-clipboard"></i> <span>Edit-Post</span></a></li>
         <li><a href="categories.php"><i class="fa fa-list"></i> <span>Categories</span></a></li>
         <li><a href="notification.php"><i class="fa fa-table"></i> <span>Notification</span></a></li>
-        <li><a href="report.php"><i class="fa fa-font"></i> <span>Report</span></a></li>
+        <li><a href="report.php"><i class="fa fa-font"></i> <span class="badge bg-yellow"> Report  <?php echo $_SESSION['count'];?></span></a></li>
+        <li><a href="registration.php"><i class="fa fa-edit"></i> <span class="badge bg-yellow"> Registration Details <?php echo $_SESSION['users'];?></span></a></li>
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
   </aside>
+
+                      <?php }
+                    }
+                    ?>
+<?php
+
+$select=$pdo->prepare("select report_id from report");
+$select->execute();
+$_SESSION['count']=$select->rowCount();
+
+?>
+
+<?php
+                  $select2=$pdo->prepare("select id from user");
+                  $select2->execute();
+                  $_SESSION['users']=$select2->rowCount();
+
+
+?>

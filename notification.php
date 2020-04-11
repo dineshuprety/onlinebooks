@@ -52,6 +52,7 @@
                 <?php
                   $select=$pdo->prepare("select * from notification order by n_id desc");
                   $select->execute();
+                  $_SESSION['count']=$select->rowCount();
                   while($row=$select->fetch(PDO::FETCH_OBJ)){
 
                     echo'<tr>
